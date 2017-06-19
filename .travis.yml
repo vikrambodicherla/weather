@@ -1,4 +1,9 @@
 language: android
+# For danger
+rvm: 2.0.0
+
+jdk:
+  - oraclejdk8
 
 android:
   components:
@@ -14,3 +19,7 @@ notifications:
   email: false
 
 sudo: false
+
+before_script:
+  # Danger
+  - bundle exec danger
