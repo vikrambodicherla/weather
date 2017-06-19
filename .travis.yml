@@ -1,7 +1,4 @@
 language: android
-# For danger
-rvm:
-  - 2.0.0
 
 jdk:
   - oraclejdk8
@@ -20,6 +17,11 @@ notifications:
   email: false
 
 sudo: false
+
+before_install:
+  # Danger needs rvm 2.0.0 and the only way to get it is this according to
+  # https://stackoverflow.com/questions/30242585/travis-ci-not-switching-to-the-specified-ruby-version-on-an-android-project-buil
+  - rvm install 2.0.0
 
 before_script:
   # Danger
