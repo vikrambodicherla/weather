@@ -22,4 +22,5 @@ sudo: false
 
 before_script:
   # Danger
+  - bundle install
   - bundle exec danger
