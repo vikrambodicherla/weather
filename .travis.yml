@@ -1,6 +1,7 @@
 language: android
 # For danger
-rvm: 2.2.0
+rvm:
+  - 2.0.0
 
 jdk:
   - oraclejdk8
