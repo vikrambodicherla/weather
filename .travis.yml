@@ -27,3 +27,11 @@ before_script:
   # Danger
   - bundle install
   - bundle exec danger
+
+script:
+  # Build the artifact
+  - ./gradlew assembleRelease
+
+after_success:
+  # Publish if successful
+  - ./gradlew artifactoryPublish
