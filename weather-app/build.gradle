@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+def packageName = 'com.markiv.weather'
+def libraryVersion = '1.0.0'
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -53,4 +59,34 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
+
+artifactory {
+    contextUrl = 'http://ec2-54-237-131-98.compute-1.amazonaws.com/artifactory'
+    publish {
+        repository {
+            repoKey = 'weather'
+
+            username = 'user'
+            password = 'qazwsx'
+        }
+
+        defaults {
+            publications('apk')
+            publishArtifacts = true
+        }
+    }
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId packageName
+            version = libraryVersion
+            artifactId project.getName()
+
+            // Tell maven to prepare the generated "*.apk" file for publishing
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.apk")
+        }
+    }
 }
