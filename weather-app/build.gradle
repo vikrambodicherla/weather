@@ -4,7 +4,16 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 def packageName = 'com.markiv.weather'
-def libraryVersion = '1.0.0'
+def appVersion = '1.0.0'
+
+static int getVersionCode() {
+    int buildNumber = (
+            System.getProperty("TRAVIS_BUILD_NUMBER") != null
+                    ? Integer.valueOf(System.getProperty("TRAVIS_BUILD_NUMBER"))
+                    : 1
+    );
+    return buildNumber
+}
 
 android {
     compileSdkVersion 25
@@ -80,13 +89,13 @@ artifactory {
 
 publishing {
     publications {
-        aar(MavenPublication) {
-            groupId packageName
-            version = libraryVersion
-            artifactId project.getName()
+        apk(MavenPublication) {
+            groupId = packageName
+            artifactId = project.getName()
+            version = appVersion + "." + getVersionCode()
 
             // Tell maven to prepare the generated "*.apk" file for publishing
-            artifact("$buildDir/outputs/aar/${project.getName()}-release.apk")
+            artifact("$buildDir/outputs/apk/release/${project.getName()}-release-unsigned.apk")
         }
     }
 }
