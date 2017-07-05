@@ -23,15 +23,21 @@ before_install:
   # https://stackoverflow.com/questions/30242585/travis-ci-not-switching-to-the-specified-ruby-version-on-an-android-project-buil
   - rvm install 2.0.0
 
-before_script:
-  # Danger
+before_script:  # Danger
   - bundle install
   - bundle exec danger
 
 script:
-  # Build the artifact
-  - ./gradlew assembleRelease
+  - ./gradlew assembleRelease  # Build the artifact
 
 after_success:
-  # Publish if successful
-  - ./gradlew artifactoryPublish
+  - ./gradlew artifactoryPublish  # Publish if successful
+
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:      #Cache all dirs under .gradle folder
+    - $HOME/.gradle/daemon      #Cache daemon logs
+    - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
+    - $HOME/.gradle/wrapper     #Cache the gradle
